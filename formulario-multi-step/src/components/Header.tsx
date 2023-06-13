@@ -28,7 +28,7 @@ export function Header() {
           aria-selected={false}
           className="text-base font-bold leading-normal text-gray-200 aria-selected:text-gray-400"
         >
-          Contato
+          Empresa
         </span>
       </div>
       <ChevronRight size={20} className="text-gray-400" strokeWidth={3} />
@@ -43,7 +43,7 @@ export function Header() {
           aria-selected={false}
           className="text-base font-bold leading-normal text-gray-200 aria-selected:text-gray-400"
         >
-          Contato
+          Projeto
         </span>
       </div>
     </header>

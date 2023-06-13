@@ -19,6 +19,7 @@ module.exports = {
       'gray-400': '#323238',
 
       'sucess-color': '#1D8841',
+      'error-color': '#FF4343',
     },
   },
   plugins: [],

@@ -1,4 +1,23 @@
+'use client'
+import * as zod from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+
+const formSchema = zod.object({
+  objetivo: zod.string().min(20, 'No mínimo 20 caracteres'),
+})
+
+type FormTypes = zod.infer<typeof formSchema>
+
 export default function Projeto() {
+  const {
+    handleSubmit,
+    register,
+    formState: { isSubmitting, errors },
+  } = useForm<FormTypes>({
+    resolver: zodResolver(formSchema),
+  })
+
   return (
     <form className="flex flex-col gap-4">
       <div className="flex flex-col gap-1">
