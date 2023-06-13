@@ -21,9 +21,9 @@ const formSchema = zod.object({
 type FormSchemaType = zod.infer<typeof formSchema>
 
 export default function Home() {
-  const { setFormContato } = useContext(FormContext)
+  const { setFormContato, verifyRouterByForm } = useContext(FormContext)
   const router = useRouter()
-
+  verifyRouterByForm()
   const {
     handleSubmit,
     register,
