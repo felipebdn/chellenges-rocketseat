@@ -1,46 +1,45 @@
-export default function Home() {
+export default function Empresa() {
   return (
     <form className="flex flex-col gap-4">
       <div className="flex flex-col gap-1">
         <label
           className="text-base font-bold leading-normal text-gray-400"
-          htmlFor="nome"
+          htmlFor="empresa"
         >
-          Nome
+          Nome da empresa
         </label>
         <input
           className="rounded-sm border border-gray-100 bg-transparent px-4 py-2 text-base font-normal text-gray-400 outline-none placeholder:text-base placeholder:font-normal placeholder:text-gray-200 hover:border-purple-light focus:border-purple-light"
           type="text"
-          id="nome"
-          placeholder="Como prefere ser chamado"
+          id="empresa"
+          placeholder="Qual é o nome da empresa"
         />
       </div>
       <div className="flex flex-col gap-1">
         <label
           className="text-base font-bold leading-normal text-gray-400"
-          htmlFor="telefone"
+          htmlFor="funcionarios"
         >
-          Telefone
+          Número de funcionários
         </label>
         <input
           className="rounded-sm border border-gray-100 bg-transparent px-4 py-2 text-base font-normal text-gray-400 outline-none placeholder:text-base placeholder:font-normal placeholder:text-gray-200 hover:border-purple-light focus:border-purple-light"
           type="text"
-          id="telefone"
-          placeholder="Digite seu número de WhatsApp"
+          id="funcionarios"
+          placeholder="Digite o número de colaboradores"
         />
       </div>
       <div className="flex flex-col gap-1">
         <label
           className="text-base font-bold leading-normal text-gray-400"
-          htmlFor="email"
+          htmlFor="sobre"
         >
-          E-mail
+          Sobre seu negócio
         </label>
-        <input
+        <textarea
           className="rounded-sm border border-gray-100 bg-transparent px-4 py-2 text-base font-normal text-gray-400 outline-none placeholder:text-base placeholder:font-normal placeholder:text-gray-200 hover:border-purple-light focus:border-purple-light"
-          type="email"
-          id="email"
-          placeholder="Como prefere ser chamado"
+          id="sobre"
+          placeholder="Fale um pouco sobre seus produtos ou serviços"
         />
       </div>
       <div className="mt-4 flex w-full justify-end">
