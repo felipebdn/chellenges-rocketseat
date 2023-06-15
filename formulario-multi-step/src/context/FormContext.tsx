@@ -1,8 +1,10 @@
 'use client'
+import { submitFormEmpresaAction } from '@/reducer/forms/actions'
 import {
   ContatoTypes,
   EmpresaTypes,
   ProjetoTypes,
+  StateFormTypes,
   formReducer,
   initialState,
 } from '@/reducer/forms/reducer'
@@ -13,16 +15,13 @@ interface FormContextProviderProps {
 }
 
 interface FormContextType {
-  contato: ContatoTypes
-  empresa: EmpresaTypes
-  projeto: ProjetoTypes
+  stateForm: StateFormTypes
 }
+
 export const FormContext = createContext({} as FormContextType)
 
 export function FormContextProvider({ children }: FormContextProviderProps) {
   const [stateForm, dispatch] = useReducer(formReducer, initialState)
-
-  const { contato, empresa, projeto } = stateForm
 
   // function verifyRouterByForm() {
   //   if (!contato.email) {
@@ -36,8 +35,12 @@ export function FormContextProvider({ children }: FormContextProviderProps) {
   //   }
   // }
 
+  function handleSetFormContato(data: EmpresaTypes) {
+    dispatch(submitFormEmpresaAction(data))
+  }
+
   return (
-    <FormContext.Provider value={{ contato, empresa, projeto }}>
+    <FormContext.Provider value={{ stateForm }}>
       {children}
     </FormContext.Provider>
   )

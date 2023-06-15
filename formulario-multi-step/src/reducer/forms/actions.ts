@@ -18,19 +18,19 @@ export type Actions =
   | submitEmpresaAction
   | submitProjetoAction
 
-export function submitFormContatoAction(data: ContatoTypes) {
+export function submitFormContatoAction(data: ContatoTypes): Actions {
   return {
     type: 'SUBMIT_CONTATO',
     payload: data,
   }
 }
-export function submitFormEmpresaAction(data: EmpresaTypes) {
+export function submitFormEmpresaAction(data: EmpresaTypes): Actions {
   return {
     type: 'SUBMIT_EMPRESA',
     payload: data,
   }
 }
-export function submitFormProjetoAction(data: ProjetoTypes) {
+export function submitFormProjetoAction(data: ProjetoTypes): Actions {
   return {
     type: 'SUBMIT_PROJETO',
     payload: data,
