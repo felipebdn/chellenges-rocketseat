@@ -1,8 +1,8 @@
 'use client'
-import { useForm, FormProvider } from 'react-hook-form'
 import * as zod from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Contato } from '@/components/contato/page'
+import { Contato, ContatoTypes } from '@/components/contato/page'
+import { useState } from 'react'
+import { Projeto, ProjetoType } from '@/components/projeto/page'
 
 const formSchema = zod.object({
   nomeContato: zod.string().min(2, 'Digite seu nome'),
@@ -22,17 +22,39 @@ const formSchema = zod.object({
 export type FormTypes = zod.infer<typeof formSchema>
 
 export default function Home() {
-  const formData = useForm<FormTypes>({
-    resolver: zodResolver(formSchema),
-  })
+  const [step, setStep] = useState(1)
+
+  const [formContato, setFormContato] = useState({} as ContatoTypes)
+  const [formProjeto, setFormEmpresa] = useState({} as ProjetoType)
+  const [formProjeto, setFormProjeto] = useState({} as ProjetoType)
+
+  function handleFormContato(data: ContatoTypes) {
+    setFormContato(data)
+  }
+  function handleFormEmpresa(data: ProjetoType) {
+    setFormEmpresa(data)
+  }
+  function handleFormProjeto(data: ProjetoType) {
+    setFormProjeto(data)
+  }
+
+  function handleStep(num: number) {
+    setStep(num)
+  }
 
   return (
     <div className="">
-      <FormProvider {...formData}>
-        <Contato />
-      </FormProvider>
+      <Contato
+        step={step}
+        handleStep={handleStep}
+        handleFormContato={handleFormContato}
+      />
       {/* <Empresa /> */}
-      {/* <Projeto /> */}
+      <Projeto
+        step={step}
+        handleStep={handleStep}
+        handleFormProjeto={handleFormProjeto}
+      />
     </div>
   )
 }

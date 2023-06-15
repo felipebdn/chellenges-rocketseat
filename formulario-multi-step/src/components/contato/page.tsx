@@ -1,18 +1,45 @@
-import { useFormContext } from 'react-hook-form'
+import * as zod from 'zod'
 import InputMask from 'react-input-mask'
-import { FormTypes } from '@/app/page'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
 
-export function Contato() {
+const contatoSchema = zod.object({
+  nomeContato: zod.string().min(2, 'Digite seu nome'),
+  telefoneContato: zod
+    .string()
+    .regex(
+      /^\(\d{2}\) \d{5}-\d{4}$/,
+      'Digite seu numero de telefone corretamente',
+    ),
+  emailContato: zod.string().email('Digite um email válido'),
+})
+
+export type ContatoTypes = zod.infer<typeof contatoSchema>
+
+interface ContatoProps {
+  step: number
+  handleStep: (num: number) => void
+  handleFormContato: (data: ContatoTypes) => void
+}
+
+export function Contato({ step, handleStep }: ContatoProps) {
   const {
+    handleSubmit,
     register,
-    formState: { errors },
     trigger,
-  } = useFormContext<FormTypes>()
+    formState: { errors },
+  } = useForm<ContatoTypes>({
+    resolver: zodResolver(contatoSchema),
+  })
 
-  function validateForm() {}
+  function submit(data: ContatoTypes) {}
 
   return (
-    <div className="flex flex-col gap-4">
+    <form
+      onSubmit={handleSubmit(submit)}
+      aria-hidden={!(step === 1)}
+      className="flex flex-col gap-4 aria-hidden:hidden"
+    >
       <div className="flex flex-col gap-1">
         <label
           className="text-base font-bold leading-normal text-gray-400"
@@ -81,12 +108,12 @@ export function Contato() {
       </div>
       <div className="mt-4 flex w-full justify-end">
         <button
-          onClick={validateForm}
+          type="submit"
           className="w-fit rounded-md bg-purple-mid px-8 py-4 text-base font-bold uppercase leading-normal text-white"
         >
           Continuar
         </button>
       </div>
-    </div>
+    </form>
   )
 }

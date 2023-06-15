@@ -1,14 +1,32 @@
-import { FormTypes } from '@/app/page'
-import { useFormContext } from 'react-hook-form'
+import * as zod from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
 
-export function Projeto() {
+const projetoSchema = zod.object({
+  objetivoProjeto: zod.string().min(20, 'No mínimo 20 caracteres'),
+})
+
+export type ProjetoType = zod.infer<typeof projetoSchema>
+
+interface projetoProps {
+  step: number
+  handleStep: (num: number) => void
+  handleFormProjeto: (data: ProjetoType) => void
+}
+
+export function Projeto({ handleFormProjeto, handleStep, step }: projetoProps) {
   const {
+    handleSubmit,
     register,
     formState: { errors },
-  } = useFormContext<FormTypes>()
+  } = useForm<ProjetoType>({
+    resolver: zodResolver(projetoSchema),
+  })
+
+  function submit(data: ProjetoType) {}
 
   return (
-    <div className="flex flex-col gap-4">
+    <form onSubmit={handleSubmit(submit)} className="flex flex-col gap-4">
       <div className="flex flex-col gap-1">
         <label
           className="text-base font-bold leading-normal text-gray-400"
@@ -32,10 +50,13 @@ export function Projeto() {
         <button className="rounded-md border border-purple-mid bg-transparent px-8 py-4 text-base font-bold uppercase leading-normal text-purple-mid transition-colors hover:bg-purple-light hover:text-white">
           Voltar
         </button>
-        <button className="w-fit rounded-md bg-purple-mid px-8 py-4 text-base font-bold uppercase leading-normal text-white">
+        <button
+          type="submit"
+          className="w-fit rounded-md bg-purple-mid px-8 py-4 text-base font-bold uppercase leading-normal text-white"
+        >
           Continuar
         </button>
       </div>
-    </div>
+    </form>
   )
 }

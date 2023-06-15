@@ -13,23 +13,18 @@ const formEmpresaSchema = zod.object({
 type FormEmpresaType = zod.infer<typeof formEmpresaSchema>
 
 export function Empresa() {
-  const router = useRouter()
   const {
     handleSubmit,
     register,
-    formState: { isSubmitting, errors },
+    formState: { errors, isSubmitting },
   } = useForm<FormEmpresaType>({
     resolver: zodResolver(formEmpresaSchema),
   })
 
-  const { nome, qtdFuncionarios, sobre } = errors
-
-  function handleForm(data: FormEmpresaType) {
-    router.push('/projeto')
-  }
+  function submit(data: FormEmpresaType) {}
 
   return (
-    <form onSubmit={handleSubmit(handleForm)} className="flex flex-col gap-4">
+    <form onSubmit={handleSubmit(submit)} className="flex flex-col gap-4">
       <div className="flex flex-col gap-1">
         <label
           className="text-base font-bold leading-normal text-gray-400"
@@ -44,9 +39,9 @@ export function Empresa() {
           {...register('nome')}
           placeholder="Qual é o nome da empresa"
         />
-        {nome && (
+        {errors.nome?.message && (
           <div className="text-xs font-normal leading-tight text-error-color">
-            {nome.message}
+            {errors.nome.message}
           </div>
         )}
       </div>
@@ -64,9 +59,9 @@ export function Empresa() {
           id="funcionarios"
           placeholder="Digite o número de colaboradores"
         />
-        {qtdFuncionarios && (
+        {errors.qtdFuncionarios?.message && (
           <div className="text-xs font-normal leading-tight text-error-color">
-            {qtdFuncionarios.message}
+            {errors.qtdFuncionarios.message}
           </div>
         )}
       </div>
@@ -83,9 +78,9 @@ export function Empresa() {
           id="sobre"
           placeholder="Fale um pouco sobre seus produtos ou serviços"
         />
-        {sobre && (
+        {errors.sobre?.message && (
           <div className="text-xs font-normal leading-tight text-error-color">
-            {sobre.message}
+            {errors.sobre.message}
           </div>
         )}
       </div>
