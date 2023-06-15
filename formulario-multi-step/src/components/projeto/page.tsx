@@ -1,6 +1,8 @@
 import * as zod from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { FormContext } from '@/context/formContext'
+import { useContext } from 'react'
 
 const projetoSchema = zod.object({
   objetivoProjeto: zod.string().min(20, 'No mínimo 20 caracteres'),
@@ -9,12 +11,11 @@ const projetoSchema = zod.object({
 export type ProjetoType = zod.infer<typeof projetoSchema>
 
 interface projetoProps {
-  step: number
-  handleStep: (num: number) => void
   handleFormProjeto: (data: ProjetoType) => void
 }
 
-export function Projeto({ handleFormProjeto, handleStep, step }: projetoProps) {
+export function Projeto({ handleFormProjeto }: projetoProps) {
+  const { step, handleStep } = useContext(FormContext)
   const {
     handleSubmit,
     register,
@@ -23,8 +24,13 @@ export function Projeto({ handleFormProjeto, handleStep, step }: projetoProps) {
     resolver: zodResolver(projetoSchema),
   })
 
-  function submit(data: ProjetoType) {}
-
+  function submit(data: ProjetoType) {
+    handleFormProjeto(data)
+    handleStep(step + 1)
+  }
+  function backForm() {
+    handleStep(step - 1)
+  }
   return (
     <form onSubmit={handleSubmit(submit)} className="flex flex-col gap-4">
       <div className="flex flex-col gap-1">
@@ -47,7 +53,10 @@ export function Projeto({ handleFormProjeto, handleStep, step }: projetoProps) {
         )}
       </div>
       <div className="mt-4 flex w-full justify-between">
-        <button className="rounded-md border border-purple-mid bg-transparent px-8 py-4 text-base font-bold uppercase leading-normal text-purple-mid transition-colors hover:bg-purple-light hover:text-white">
+        <button
+          onClick={backForm}
+          className="rounded-md border border-purple-mid bg-transparent px-8 py-4 text-base font-bold uppercase leading-normal text-purple-mid transition-colors hover:bg-purple-light hover:text-white"
+        >
           Voltar
         </button>
         <button

@@ -2,7 +2,8 @@
 import * as zod from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { useRouter } from 'next/navigation'
+import { useContext } from 'react'
+import { FormContext } from '@/context/formContext'
 
 const formEmpresaSchema = zod.object({
   nome: zod.string().min(2, 'Digite o nome da empresa'),
@@ -10,9 +11,14 @@ const formEmpresaSchema = zod.object({
   sobre: zod.string().min(20, 'Diga um pouco sobre a empresa'),
 })
 
-type FormEmpresaType = zod.infer<typeof formEmpresaSchema>
+export type FormEmpresaType = zod.infer<typeof formEmpresaSchema>
 
-export function Empresa() {
+interface EmpresaProps {
+  handleFormEmpresa: (data: FormEmpresaType) => void
+}
+
+export function Empresa({ handleFormEmpresa }: EmpresaProps) {
+  const { step, handleStep } = useContext(FormContext)
   const {
     handleSubmit,
     register,
@@ -21,7 +27,13 @@ export function Empresa() {
     resolver: zodResolver(formEmpresaSchema),
   })
 
-  function submit(data: FormEmpresaType) {}
+  function submit(data: FormEmpresaType) {
+    handleFormEmpresa(data)
+    handleStep(step + 1)
+  }
+  function backForm() {
+    handleStep(step - 1)
+  }
 
   return (
     <form onSubmit={handleSubmit(submit)} className="flex flex-col gap-4">
@@ -84,7 +96,13 @@ export function Empresa() {
           </div>
         )}
       </div>
-      <div className="mt-4 flex w-full justify-end">
+      <div className="mt-4 flex w-full justify-between">
+        <button
+          onClick={backForm}
+          className="rounded-md border border-purple-mid bg-transparent px-8 py-4 text-base font-bold uppercase leading-normal text-purple-mid transition-colors hover:bg-purple-light hover:text-white"
+        >
+          Voltar
+        </button>
         <button
           type="submit"
           disabled={isSubmitting}

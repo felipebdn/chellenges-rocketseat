@@ -2,6 +2,8 @@ import * as zod from 'zod'
 import InputMask from 'react-input-mask'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { FormContext } from '@/context/formContext'
+import { useContext } from 'react'
 
 const contatoSchema = zod.object({
   nomeContato: zod.string().min(2, 'Digite seu nome'),
@@ -17,12 +19,11 @@ const contatoSchema = zod.object({
 export type ContatoTypes = zod.infer<typeof contatoSchema>
 
 interface ContatoProps {
-  step: number
-  handleStep: (num: number) => void
   handleFormContato: (data: ContatoTypes) => void
 }
 
-export function Contato({ step, handleStep }: ContatoProps) {
+export function Contato({ handleFormContato }: ContatoProps) {
+  const { step, handleStep } = useContext(FormContext)
   const {
     handleSubmit,
     register,
@@ -32,7 +33,10 @@ export function Contato({ step, handleStep }: ContatoProps) {
     resolver: zodResolver(contatoSchema),
   })
 
-  function submit(data: ContatoTypes) {}
+  function submit(data: ContatoTypes) {
+    handleFormContato(data)
+    handleStep(step + 1)
+  }
 
   return (
     <form

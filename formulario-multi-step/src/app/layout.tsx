@@ -2,6 +2,7 @@ import { ReactNode } from 'react'
 import './globals.css'
 import { IBM_Plex_Sans as ibmPlexSans } from 'next/font/google'
 import { Header } from '@/components/Header'
+import { FormContextProvider } from '@/context/formContext'
 
 const plex = ibmPlexSans({
   subsets: ['latin'],
@@ -20,8 +21,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className={plex.className}>
         <div className="flex h-screen w-screen items-center justify-center">
           <div className="flex w-1/2 flex-col rounded-md border border-gray-100 bg-white p-8">
-            <Header />
-            {children}
+            <FormContextProvider>
+              <Header />
+              {children}
+            </FormContextProvider>
           </div>
         </div>
       </body>
