@@ -2,8 +2,6 @@
 import * as zod from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { useContext } from 'react'
-import { FormContext } from '@/context/FormContext'
 import { useRouter } from 'next/navigation'
 
 const formEmpresaSchema = zod.object({
@@ -14,8 +12,7 @@ const formEmpresaSchema = zod.object({
 
 type FormEmpresaType = zod.infer<typeof formEmpresaSchema>
 
-export default function Empresa() {
-  const { setFormEmpresa } = useContext(FormContext)
+export function Empresa() {
   const router = useRouter()
   const {
     handleSubmit,
@@ -28,7 +25,6 @@ export default function Empresa() {
   const { nome, qtdFuncionarios, sobre } = errors
 
   function handleForm(data: FormEmpresaType) {
-    setFormEmpresa(data)
     router.push('/projeto')
   }
 
