@@ -30,9 +30,12 @@ export default function Home() {
       {step === 3 && <Projeto handleFormProjeto={handleFormProjeto} />}
       {step === 4 && (
         <div>
-          {JSON.stringify(formContato, null, 2)}
-          {JSON.stringify(formEmpresa, null, 2)}
-          {JSON.stringify(formProjeto, null, 2)}
+          <h5 className="mb-4 text-xl font-bold text-purple-light">
+            Seus dados
+          </h5>
+          <pre>{JSON.stringify(formContato, null, 2)}</pre>
+          <pre>{JSON.stringify(formEmpresa, null, 2)}</pre>
+          <pre>{JSON.stringify(formProjeto, null, 2)}</pre>
         </div>
       )}
     </>

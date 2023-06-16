@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import './globals.css'
 import { IBM_Plex_Sans as ibmPlexSans } from 'next/font/google'
-import { Header } from '@/components/Header'
+import { Header } from '@/components/header/Header'
 import { FormContextProvider } from '@/context/formContext'
 
 const plex = ibmPlexSans({
