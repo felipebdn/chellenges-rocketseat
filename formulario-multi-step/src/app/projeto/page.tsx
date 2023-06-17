@@ -1,8 +1,10 @@
+'use client'
 import * as zod from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { FormContext } from '@/context/formContext'
 import { useContext } from 'react'
+import { useRouter } from 'next/navigation'
 
 const projetoSchema = zod.object({
   objetivoProjeto: zod.string().min(20, 'No mínimo 20 caracteres'),
@@ -10,26 +12,27 @@ const projetoSchema = zod.object({
 
 export type ProjetoType = zod.infer<typeof projetoSchema>
 
-interface projetoProps {
-  handleFormProjeto: (data: ProjetoType) => void
-}
-
-export function Projeto({ handleFormProjeto }: projetoProps) {
-  const { step, handleStep } = useContext(FormContext)
+export default function Projeto() {
+  const router = useRouter()
+  const { step, handleStep, handleFormProjeto, formState } =
+    useContext(FormContext)
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm<ProjetoType>({
     resolver: zodResolver(projetoSchema),
+    defaultValues: formState.projeto,
   })
 
   function submit(data: ProjetoType) {
     handleFormProjeto(data)
     handleStep(step + 1)
+    router.push('/success')
   }
   function backForm() {
     handleStep(step - 1)
+    router.back()
   }
   return (
     <form onSubmit={handleSubmit(submit)} className="flex flex-col gap-4">

@@ -10,7 +10,6 @@ interface StepProps {
 
 export function Step({ currentStep, name }: StepProps) {
   const { step } = useContext(FormContext)
-  console.log(step)
 
   return (
     <div className="flex items-center gap-2">

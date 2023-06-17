@@ -1,9 +1,11 @@
+'use client'
 import * as zod from 'zod'
 import InputMask from 'react-input-mask'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { FormContext } from '@/context/formContext'
 import { useContext } from 'react'
+import { useRouter } from 'next/navigation'
 
 const contatoSchema = zod.object({
   nomeContato: zod.string().min(2, 'Digite seu nome'),
@@ -18,12 +20,10 @@ const contatoSchema = zod.object({
 
 export type ContatoTypes = zod.infer<typeof contatoSchema>
 
-interface ContatoProps {
-  handleFormContato: (data: ContatoTypes) => void
-}
-
-export function Contato({ handleFormContato }: ContatoProps) {
-  const { step, handleStep } = useContext(FormContext)
+export default function Contato() {
+  const { step, handleStep, handleFormContato, formState } =
+    useContext(FormContext)
+  const router = useRouter()
   const {
     handleSubmit,
     register,
@@ -31,11 +31,13 @@ export function Contato({ handleFormContato }: ContatoProps) {
     formState: { errors },
   } = useForm<ContatoTypes>({
     resolver: zodResolver(contatoSchema),
+    defaultValues: formState.contato,
   })
 
   function submit(data: ContatoTypes) {
     handleFormContato(data)
     handleStep(step + 1)
+    router.push('/empresa')
   }
 
   return (
@@ -102,7 +104,7 @@ export function Contato({ handleFormContato }: ContatoProps) {
           id="email"
           {...register('emailContato')}
           onBlur={() => trigger('emailContato')}
-          placeholder="Como prefere ser chamado"
+          placeholder="Digite seu email"
         />
         {errors.emailContato?.message && (
           <div className="text-xs font-normal leading-tight text-error-color">
